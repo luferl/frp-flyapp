@@ -1,83 +1,23 @@
-kill_signal = "SIGTERM"
-kill_timeout = "2m0s"
+# fly.toml app configuration file generated for frp-flyapp-zepgpa on 2025-01-02T06:58:22Z
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
 
-# frp control plane
-# frp HTTP server (for dashboard or HTTP tunnel)
+app = 'frp-flyapp-zepgpa'
+primary_region = 'hkg'
+
+[build]
+
 [http_service]
   internal_port = 8080
   force_https = true
-
-  [http_service.concurrency]
-    type = "requests"
-    hard_limit = 25
-    soft_limit = 20
-
-# frp TCP server
-[[services]]
-  protocol = "tcp"
-  internal_port = 7000
-
-  [[services.ports]]
-    port = 7000
-
-  [services.concurrency]
-    type = "connections"
-    hard_limit = 25
-    soft_limit = 20
-
-# frp KCP server
-[[services]]
-  protocol = "udp"
-  internal_port = 7000
-
-  [[services.ports]]
-    port = 7000
-
-  [services.concurrency]
-    type = "connections"
-    hard_limit = 25
-    soft_limit = 20
-
-# frp QUIC server
-[[services]]
-  protocol = "udp"
-  internal_port = 7001
-
-  [[services.ports]]
-    port = 7001
-
-  [services.concurrency]
-    type = "connections"
-    hard_limit = 25
-    soft_limit = 20
-
-# frp data plane
-# frp TCP tunnel (example for Minecraft Java server)
-[[services]]
-  protocol = "tcp"
-  internal_port = 25565
-
-  [[services.ports]]
-    port = 25565
-
-  [services.concurrency]
-    type = "connections"
-    hard_limit = 25
-    soft_limit = 20
-
-# frp UDP tunnel (example for Minecraft Bedrock server)
-[[services]]
-  protocol = "udp"
-  internal_port = 19132
-
-  [[services.ports]]
-    port = 19132
-
-  [services.concurrency]
-    type = "connections"
-    hard_limit = 25
-    soft_limit = 20
+  auto_stop_machines = 'stop'
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ['app']
 
 [[vm]]
-  size = "shared-cpu-1x"
+  size = 'shared-cpu-1x'
+  cpu_kind = 'shared'
+  cpus = 1
   memory_mb = 256
